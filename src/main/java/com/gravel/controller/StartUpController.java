@@ -47,7 +47,7 @@ public class StartUpController {
      * @return
      */
     @GetMapping("/getKdlip")
-    public String index2() {
+    public String getKdlip() {
         Spider.create(new KDLipProxyPoolProcessor())
                 .addUrl("http://www.kuaidaili.com/free/")
                 .addPipeline(ipSpiderPipeline)

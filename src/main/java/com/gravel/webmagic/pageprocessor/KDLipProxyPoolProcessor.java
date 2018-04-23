@@ -37,14 +37,16 @@ public class KDLipProxyPoolProcessor implements PageProcessor {
                 proxyIp.setIp(data[0]);
                 proxyIp.setPort(Integer.valueOf(data[1]));
 
-                if(IpUtils.checkIP(data[0],Integer.valueOf(data[1]))){
+                //暂时取消ip验证
+               // if(IpUtils.checkIP(data[0],Integer.valueOf(data[1]))){
                     result.add(proxyIp);
-                }
+                //}
             }
         }
         page.putField("result", result);
-        page.addTargetRequest("http://www.kuaidaili.com/free/inha/2/");
-        page.addTargetRequest("http://www.kuaidaili.com/free/intr/1/");
+        for(int i=1;i<15;i++) {
+            page.addTargetRequest("http://www.kuaidaili.com/free/inha/"+(i+1)+"/");
+        }
     }
 
     @Override
