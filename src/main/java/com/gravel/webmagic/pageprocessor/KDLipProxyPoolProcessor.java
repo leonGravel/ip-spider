@@ -3,8 +3,12 @@ package com.gravel.webmagic.pageprocessor;
 import com.gravel.domain.ProxyIp;
 import com.gravel.utils.IpUtils;
 import com.gravel.utils.UserAgentUtil;
+import com.gravel.webmagic.pipeline.IPSpiderPipeline;
+import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
+import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
 
@@ -14,6 +18,7 @@ import java.util.List;
 /**
  * Created by gravel on 18/04/13.
  */
+@Component
 public class KDLipProxyPoolProcessor implements PageProcessor {
 
     private Site site = Site.me().setDisableCookieManagement(true)
@@ -52,5 +57,16 @@ public class KDLipProxyPoolProcessor implements PageProcessor {
     @Override
     public Site getSite() {
         return site;
+    }
+
+    public void start(KDLipProxyPoolProcessor processor, IPSpiderPipeline ipPipeline) {
+        final String ip = "forward.xdaili.cn";
+        final int port = 80;
+
+        Spider.create(processor)
+                .addUrl("http://www.kuaidaili.com/free/")
+                .thread(5)
+                .addPipeline(ipPipeline)
+                .run();
     }
 }

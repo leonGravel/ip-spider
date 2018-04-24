@@ -1,11 +1,14 @@
 package com.gravel.controller;
 
+import com.gravel.redis.RedisService;
 import com.gravel.webmagic.downloader.MyProxyProvider;
 import com.gravel.webmagic.pageprocessor.XCipProxyPoolProcessor;
 import com.gravel.webmagic.pageprocessor.KDLipProxyPoolProcessor;
 import com.gravel.webmagic.pipeline.IPSpiderPipeline;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.proxy.Proxy;
@@ -14,11 +17,31 @@ import us.codecraft.webmagic.downloader.HttpClientDownloader;
 /**
  * Created by gravel on 2018/04/13.
  */
-@RestController
+@Controller
 public class StartUpController {
 
     @Autowired
     IPSpiderPipeline ipSpiderPipeline;
+
+    @Autowired
+    KDLipProxyPoolProcessor kdlProcessor;
+
+    @Autowired
+    private RedisService redisService;
+
+    /**
+     * index页面展示
+     * @return
+     */
+    @RequestMapping("/")
+    public String index() {
+        //爬取结果之前，先删除ip的缓存
+        String key = "ipList";
+        redisService.remove(key);
+
+        new Thread(() -> kdlProcessor.start(kdlProcessor, ipSpiderPipeline)).start();
+        return "/index";
+    }
 
     /**
      * 抓取西刺代理的ip
@@ -46,7 +69,7 @@ public class StartUpController {
      * 抓取快代理的ip
      * @return
      */
-    @GetMapping("/getKdlip")
+    @RequestMapping("/getKdlip")
     public String getKdlip() {
         Spider.create(new KDLipProxyPoolProcessor())
                 .addUrl("http://www.kuaidaili.com/free/")
