@@ -32,7 +32,7 @@ public class IPSpiderPipeline implements Pipeline {
                     proxyIpMapper.insert(ip);
 
                     //添加到redis缓存
-                    redisService.zAdd("ipList",ip,i);
+                    redisService.zAdd("ipList",ip,0);
                 }
             }
         }

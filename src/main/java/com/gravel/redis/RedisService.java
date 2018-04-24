@@ -194,4 +194,16 @@ public class RedisService {
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         return zset.rangeByScoreWithScores(key, scoure, scoure1);
     }
+
+    /**
+     * 有序集合获取
+     * @param key
+     * @param scoure
+     * @param scoure1
+     * @return
+     */
+    public Set<Object> range(String key, long scoure, long scoure1){
+        ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
+        return zset.range(key, scoure, scoure1);
+    }
 }

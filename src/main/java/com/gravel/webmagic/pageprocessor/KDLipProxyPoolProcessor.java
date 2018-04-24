@@ -49,7 +49,7 @@ public class KDLipProxyPoolProcessor implements PageProcessor {
             }
         }
         page.putField("result", result);
-        for(int i=1;i<15;i++) {
+        for(int i=1;i<1000;i++) {
             page.addTargetRequest("http://www.kuaidaili.com/free/inha/"+(i+1)+"/");
         }
     }

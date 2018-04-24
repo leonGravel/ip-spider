@@ -1,14 +1,13 @@
 package com.gravel.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.gravel.domain.ProxyIp;
 import com.gravel.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -41,19 +40,18 @@ public class RedisTestController {
     }
 
     @RequestMapping(value = "/getIpList", method = {RequestMethod.GET, RequestMethod.POST})
-    public String getIpList(@RequestParam("start")double start,@RequestParam("end") double end){
-        StringBuffer sb = new StringBuffer();
-        Set<ZSetOperations.TypedTuple<Object>> ipList = redisService.rangeByScoreWithScores("ipList",start,end);
-        Iterator<ZSetOperations.TypedTuple<Object>> iterator = ipList.iterator();
-        sb.append("ipList=[");
-        while(iterator.hasNext()){
-            ZSetOperations.TypedTuple<Object> next = iterator.next();
-            ProxyIp ip = (ProxyIp) next.getValue();
-            sb.append("{ip:").append(ip.getIp()).append(",");
-            sb.append("port:").append(ip.getPort()).append("},");
-        }
-        sb.append("]");
-        return sb.toString();
+    @ResponseBody
+    public String getIpList(@RequestParam("start")long start,@RequestParam("end") long end){
+        Set<Object> ipList = redisService.range("ipList",start,end);
+        JSONArray arr = new JSONArray();
+       for(Object o : ipList){
+           ProxyIp ip = (ProxyIp) o;
+           JSONObject json = new JSONObject();
+           json.put("ip",ip.getIp());
+           json.put("port",ip.getPort());
+           arr.add(json);
+       }
+        return arr.toString();
     }
 
     @RequestMapping(value = "/delIpList", method = {RequestMethod.GET, RequestMethod.POST})
