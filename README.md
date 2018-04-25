@@ -5,9 +5,10 @@
 ## finished
 * 抓取IP，持久化到mysql 数据库
 * 使用[讯代理][1]实现混淆代理爬虫
-## TODO
 * 使用redis缓存爬取的内容
 * 读取redis中的数据，并动态展示在页面上
-
+## TODO
+* 完善列表查询以及展示
+* 自动化部署
 
   [1]: http://www.xdaili.cn
