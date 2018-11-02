@@ -60,9 +60,6 @@ public class KDLipProxyPoolProcessor implements PageProcessor {
     }
 
     public void start(KDLipProxyPoolProcessor processor, IPSpiderPipeline ipPipeline) {
-        final String ip = "forward.xdaili.cn";
-        final int port = 80;
-
         Spider.create(processor)
                 .addUrl("http://www.kuaidaili.com/free/")
                 .thread(5)

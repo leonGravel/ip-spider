@@ -31,7 +31,6 @@ public class StartUpController {
         //爬取结果之前，先删除ip的缓存
         String key = "ipList";
         redisService.remove(key);
-
         new Thread(() -> kdlProcessor.start(kdlProcessor, ipSpiderPipeline)).start();
         return "/index";
     }
