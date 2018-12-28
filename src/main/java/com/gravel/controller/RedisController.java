@@ -5,17 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.gravel.domain.ProxyIp;
 import com.gravel.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 @RestController
 @RequestMapping(value="/redis")
-public class RedisTestController {
+public class RedisController {
     @Autowired
     private RedisService redisService;
 

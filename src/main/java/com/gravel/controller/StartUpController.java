@@ -22,6 +22,7 @@ public class StartUpController {
     @Autowired
     private RedisService redisService;
 
+
     /**
      * index页面展示
      * @return
